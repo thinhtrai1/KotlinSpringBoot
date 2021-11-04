@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>space.earth</groupId>
     <artifactId>KotlinBlog</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>KotlinBlog</name>
     <description>Demo project for Spring Boot</description>
