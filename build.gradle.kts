@@ -42,3 +42,11 @@ tasks.withType<Test> {
 tasks.named<org.springframework.boot.gradle.tasks.run.BootRun>("bootRun") {
 	args("--spring.profiles.active=dev")
 }
+
+springBoot {
+	mainClass.set("com.example.blog.BlogApplicationKt")
+}
+
+tasks.bootJar {
+	mainClassName = "com.example.blog.BlogApplicationKt"
+}
