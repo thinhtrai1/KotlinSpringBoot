@@ -10,43 +10,45 @@ import org.springframework.web.server.ResponseStatusException
 import java.time.format.DateTimeFormatter
 
 @Controller
-class HtmlController(private val repository: ArticleRepository,
-                     private val properties: BlogProperties) {
+class HtmlController(
+//        private val repository: ProductRepository,
+        private val properties: BlogProperties
+) {
 
     @GetMapping("/")
     fun blog(model: Model): String {
         model["title"] = properties.title
         model["banner"] = properties.banner
-        model["articles"] = repository.findAllByOrderByAddedAtDesc().map { it.render() }
+//        model["articles"] = repository.findAllByOrderByAddedAtDesc().map { it.render() }
         return "blog"
     }
 
-    @GetMapping("/article/{slug}")
-    fun article(@PathVariable slug: String, model: Model): String {
-        val article = repository
-                .findBySlug(slug)
-                ?.render()
-                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "This article does not exist")
-        model["title"] = article.title
-        model["article"] = article
-        return "article"
-    }
-
-    fun Article.render() = RenderedArticle(
-            slug,
-            title,
-            headline,
-            content,
-            author,
-            addedAt.format(DateTimeFormatter.BASIC_ISO_DATE)
-    )
-
-    data class RenderedArticle(
-            val slug: String,
-            val title: String,
-            val headline: String,
-            val content: String,
-            val author: User,
-            val addedAt: String
-    )
+//    @GetMapping("/article/{slug}")
+//    fun article(@PathVariable slug: String, model: Model): String {
+//        val article = repository
+//                .findBySlug(slug)
+//                ?.render()
+//                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "This article does not exist")
+//        model["title"] = article.title
+//        model["article"] = article
+//        return "article"
+//    }
+//
+//    fun Article.render() = RenderedArticle(
+//            slug,
+//            title,
+//            headline,
+//            content,
+//            author,
+//            addedAt.format(DateTimeFormatter.BASIC_ISO_DATE)
+//    )
+//
+//    data class RenderedArticle(
+//            val slug: String,
+//            val title: String,
+//            val headline: String,
+//            val content: String,
+//            val author: User,
+//            val addedAt: String
+//    )
 }

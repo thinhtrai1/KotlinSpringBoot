@@ -7,16 +7,16 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.ManyToOne
 
-@Entity
-class Article(
-        var title: String,
-        var headline: String,
-        var content: String,
-        @ManyToOne var author: User,
-        var slug: String = title.toSlug(),
-        var addedAt: LocalDateTime = LocalDateTime.now(),
-        @Id @GeneratedValue var id: Long? = null
-)
+//@Entity
+//class Article(
+//        var title: String,
+//        var headline: String,
+//        var content: String,
+//        @ManyToOne var author: User,
+//        var slug: String = title.toSlug(),
+//        var addedAt: LocalDateTime = LocalDateTime.now(),
+//        @Id @GeneratedValue var id: Long? = null
+//)
 
 @Entity
 class User(
@@ -25,4 +25,16 @@ class User(
         var lastname: String,
         var description: String? = null,
         @Id @GeneratedValue var id: Long? = null
+)
+
+@Entity
+class Product(
+        val name: String,
+        val price: Long,
+        val thumbnail: String,
+        val rate: Float,
+        val shopId: Int,
+        val shopName: String,
+        var addedAt: LocalDateTime = LocalDateTime.now(),
+        @Id @GeneratedValue var id: Int? = null
 )

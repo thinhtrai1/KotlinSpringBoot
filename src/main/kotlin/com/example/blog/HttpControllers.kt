@@ -7,17 +7,17 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 
+class Response<T>(val data: T, val message: String? = null)
+
 @RestController
-@RequestMapping("/api/article")
-class ArticleController(private val repository: ArticleRepository) {
+@RequestMapping("/api/product")
+class ProductController(private val repository: ProductRepository) {
 
     @GetMapping("")
     fun findAll() = repository.findAllByOrderByAddedAtDesc()
 
-    @GetMapping("/{slug}")
-    fun findOne(@PathVariable slug: String) =
-            repository.findBySlug(slug) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "This article does not exist")
-
+    @GetMapping("/{name}")
+    fun findAll(@PathVariable name: String) = repository.findByName(name) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Not exist")
 }
 
 @RestController
@@ -30,4 +30,12 @@ class UserController(private val repository: UserRepository) {
     @GetMapping("/{login}")
     fun findOne(@PathVariable login: String) =
             repository.findByLogin(login) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "This user does not exist")
+}
+
+@RestController
+@RequestMapping("/api/getHome")
+class HomeController(private val repository: ProductRepository) {
+
+    @GetMapping("")
+    fun getAll() = Response(repository.findAll())
 }
