@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter
 
 @Controller
 class HtmlController(
-//        private val repository: ProductRepository,
+        private val repository: ProductRepository,
         private val properties: BlogProperties
 ) {
 
@@ -19,7 +19,8 @@ class HtmlController(
     fun blog(model: Model): String {
         model["title"] = properties.title
         model["banner"] = properties.banner
-//        model["articles"] = repository.findAllByOrderByAddedAtDesc().map { it.render() }
+        model["products"] = repository.findAllByOrderByAddedAtDesc()
+//                .map { it.render() }
         return "blog"
     }
 
