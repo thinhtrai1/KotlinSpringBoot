@@ -26,6 +26,9 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+	runtimeOnly("org.postgresql:postgresql")
+	implementation("javax.xml.bind:jaxb-api:2.3.0")
 }
 
 tasks.withType<KotlinCompile> {

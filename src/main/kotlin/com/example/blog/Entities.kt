@@ -2,10 +2,7 @@ package com.example.blog
 
 import toSlug
 import java.time.LocalDateTime
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.ManyToOne
+import javax.persistence.*
 
 //@Entity
 //class Article(
@@ -28,6 +25,7 @@ class User(
 )
 
 @Entity
+@Table(name = "product")
 class Product(
         val name: String,
         val price: Long,
