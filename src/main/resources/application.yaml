@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: dev
+blog:
+  title: Thịnh đây
+  banner:
+    title: Mỗi ngày lớn lên
+    content: Khi lớn lên rồi, tôi mới nhận ra mình không còn nhỏ nữa
