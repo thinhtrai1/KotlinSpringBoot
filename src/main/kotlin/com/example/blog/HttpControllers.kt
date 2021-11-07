@@ -11,7 +11,7 @@ class Response<T>(val data: T? = null, val message: String? = null)
 class ProductController(private val repository: ProductRepository) {
 
     @GetMapping("")
-    fun findAll(@RequestParam("search") search: String) = Response(repository.findAllByNameContaining(search))
+    fun findAll(@RequestParam("search") search: String) = Response(repository.findAllByNameContainingIgnoreCase(search))
 
     @GetMapping("/{id}")
     fun findOne(@PathVariable id: Long) = repository.findById(id).run {
