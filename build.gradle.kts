@@ -39,6 +39,6 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
-springBoot {
-	mainClass.set("com.example.blog.BlogApplicationKt")
-}
+//springBoot {
+//	mainClass.set("com.example.blog.BlogApplicationKt")
+//}
