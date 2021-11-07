@@ -3,7 +3,7 @@ package com.example.blog
 import org.springframework.data.repository.CrudRepository
 
 interface ProductRepository : CrudRepository<Product, Long> {
-    fun findByName(name: String): Product?
+    fun findAllByNameContaining(name: String): Iterable<Product>
     fun findAllByOrderByAddedAtDesc(): Iterable<Product>
 }
 

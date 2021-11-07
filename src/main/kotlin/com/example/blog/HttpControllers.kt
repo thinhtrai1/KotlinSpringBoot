@@ -1,23 +1,26 @@
 package com.example.blog
 
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 
-class Response<T>(val data: T, val message: String? = null)
+class Response<T>(val data: T? = null, val message: String? = null)
 
 @RestController
 @RequestMapping("/api/product")
 class ProductController(private val repository: ProductRepository) {
 
     @GetMapping("")
-    fun findAll() = repository.findAllByOrderByAddedAtDesc()
+    fun findAll(@RequestParam("search") search: String) = Response(repository.findAllByNameContaining(search))
 
-    @GetMapping("/{name}")
-    fun findAll(@PathVariable name: String) = repository.findByName(name) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Not exist")
+    @GetMapping("/{id}")
+    fun findOne(@PathVariable id: Long) = repository.findById(id).run {
+        if (isPresent) {
+            Response(get())
+        } else {
+            Response(message = "Product not found")
+        }
+    }
 }
 
 @RestController
@@ -37,5 +40,9 @@ class UserController(private val repository: UserRepository) {
 class HomeController(private val repository: ProductRepository) {
 
     @GetMapping("")
-    fun getAll() = Response(repository.findAll())
+    fun getHome() = Response(Home(
+            repository.findAll(),
+            repository.findAllByOrderByAddedAtDesc(),
+            repository.findAll(),
+    ))
 }

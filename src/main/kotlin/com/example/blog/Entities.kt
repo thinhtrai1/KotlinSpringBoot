@@ -36,5 +36,11 @@ class Product(
         val shopId: Int,
         val shopName: String,
         var addedAt: LocalDateTime = LocalDateTime.now(),
-        @Id @GeneratedValue var id: Int? = null
+        @Id @GeneratedValue var id: Long? = null
+)
+
+class Home(
+        val hot: Iterable<Product>,
+        val new: Iterable<Product>,
+        val forYou: Iterable<Product>,
 )
