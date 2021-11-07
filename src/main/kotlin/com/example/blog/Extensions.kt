@@ -29,7 +29,3 @@ fun String.toSlug() = toLowerCase()
         .split(" ")
         .joinToString("-")
         .replace("-+".toRegex(), "-")
-
-fun <T> response(data: T) {
-    return
-}
