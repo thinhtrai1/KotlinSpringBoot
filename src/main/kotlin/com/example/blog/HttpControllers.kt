@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 
 class Response<T>(val data: T? = null, val message: String? = null)
+class ResponseList<T>(val data: T? = null, val message: String? = null, val isLoadMore: Boolean)
 
 @RestController
 @RequestMapping("/api")
@@ -70,7 +71,9 @@ class ProductController(private val repository: ProductRepository) {
     }
 
     @GetMapping("/{page}")
-    fun getForYou(@PathVariable page: Int) = Response(repository.findAll(PageRequest.of(page, 10)))
+    fun getForYou(@PathVariable page: Int) = repository.findAll(PageRequest.of(page, 10)).run {
+        ResponseList(content, isLoadMore = page < totalPages - 1)
+    }
 }
 
 @RestController
