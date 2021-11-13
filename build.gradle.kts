@@ -29,6 +29,10 @@ dependencies {
 
 	runtimeOnly("org.postgresql:postgresql")
 	implementation("javax.xml.bind:jaxb-api:2.3.0")
+
+	implementation("org.springframework.boot:spring-boot-starter-security")
+//	implementation("org.springframework.security:spring-security-test")
+	implementation("io.jsonwebtoken:jjwt:0.2")
 }
 
 tasks.withType<KotlinCompile> {

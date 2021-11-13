@@ -1,12 +1,28 @@
 package com.example.blog
 
+import generateAuthentication
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.repository.query.Param
 import org.springframework.http.HttpStatus
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.AuthenticationException
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.User.withUsername
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.provisioning.JdbcUserDetailsManager
+import org.springframework.security.web.AuthenticationEntryPoint
+import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
-
-class Response<T>(val data: T? = null, val message: String? = null)
-class ResponseList<T>(val data: T? = null, val message: String? = null, val isLoadMore: Boolean)
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 @RestController
 @RequestMapping("/api")
@@ -46,6 +62,9 @@ class HomeController(private val repository: ProductRepository) {
         }
         return Response(product)
     }
+
+    @GetMapping("/users")
+    fun findAll() = Response(repository.findAll())
 }
 
 @RestController
@@ -80,7 +99,24 @@ class ProductController(private val repository: ProductRepository) {
 @RequestMapping("/api/user")
 class UserController(private val repository: UserRepository) {
 
-    @GetMapping("/{login}")
-    fun findOne(@PathVariable login: String) =
-            repository.findByLogin(login) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "This user does not exist")
+    @Autowired
+    private lateinit var authenticationManager: AuthenticationManager
+
+    @PostMapping("/register")
+    fun register(@Param("username") username: String, @Param("password") password: String): Response<User> {
+        return Response(
+                repository.save(User(generateAuthentication(username), username, BCryptPasswordEncoder().encode(password), "Thịnh", "Đức"))
+        )
+    }
+
+    @PostMapping("/login")
+    fun login(@Param("username") username: String, @Param("password") password: String): Response<User> {
+        val auth = authenticationManager.authenticate(UsernamePasswordAuthenticationToken(username, password))
+        SecurityContextHolder.getContext().authentication = auth
+        val token = generateAuthentication(username)
+        val user = auth.principal as CustomUserDetail
+        return Response(
+                User(token, username, password, user.user.firstname, user.user.lastname, user.user.id)
+        )
+    }
 }

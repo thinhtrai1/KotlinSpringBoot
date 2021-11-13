@@ -4,6 +4,9 @@ import toSlug
 import java.time.LocalDateTime
 import javax.persistence.*
 
+class Response<T>(val data: T? = null, val message: String? = null)
+class ResponseList<T>(val data: T? = null, val message: String? = null, val isLoadMore: Boolean)
+
 //@Entity
 //class Article(
 //        var title: String,
@@ -16,11 +19,13 @@ import javax.persistence.*
 //)
 
 @Entity
+@Table(name = "users")
 class User(
-        var login: String,
+        var token: String?,
+        var username: String,
+        var password: String,
         var firstname: String,
         var lastname: String,
-        var description: String? = null,
         @Id @GeneratedValue var id: Long? = null
 )
 
