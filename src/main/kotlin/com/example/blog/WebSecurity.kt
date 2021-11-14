@@ -1,13 +1,21 @@
 package com.example.blog
 
+import getAuthentication
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.web.AuthenticationEntryPoint
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
+import org.springframework.web.filter.OncePerRequestFilter
+import org.springframework.web.server.ResponseStatusException
+import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -16,8 +24,8 @@ class CustomUserDetailService: UserDetailsService {
     @Autowired
     private lateinit var userRepository: UserRepository
 
-    override fun loadUserByUsername(username: String?): UserDetails {
-        return CustomUserDetail(userRepository.findByUsername(username!!)!!)
+    override fun loadUserByUsername(username: String): UserDetails {
+        return CustomUserDetail(userRepository.findByUsername(username) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"))
     }
 }
 
@@ -48,6 +56,22 @@ class CustomUserDetail(val user: User): UserDetails {
 
     override fun isEnabled(): Boolean {
         return true
+    }
+}
+
+class AuthTokenFilter: OncePerRequestFilter() {
+    @Autowired
+    private lateinit var userDetailsService: CustomUserDetailService
+
+    override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
+        val user = getAuthentication(request)
+        if (user != null) {
+            val userDetail = userDetailsService.loadUserByUsername(user.principal as String)
+            val auth = UsernamePasswordAuthenticationToken(userDetail, null, userDetail.authorities)
+            auth.details = WebAuthenticationDetailsSource().buildDetails(request)
+            SecurityContextHolder.getContext().authentication = auth
+        }
+        filterChain.doFilter(request, response)
     }
 }
 

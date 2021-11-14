@@ -1,31 +1,22 @@
 package com.example.blog
 
-import toSlug
 import java.time.LocalDateTime
 import javax.persistence.*
 
 class Response<T>(val data: T? = null, val message: String? = null)
 class ResponseList<T>(val data: T? = null, val message: String? = null, val isLoadMore: Boolean)
 
-//@Entity
-//class Article(
-//        var title: String,
-//        var headline: String,
-//        var content: String,
-//        @ManyToOne var author: User,
-//        var slug: String = title.toSlug(),
-//        var addedAt: LocalDateTime = LocalDateTime.now(),
-//        @Id @GeneratedValue var id: Long? = null
-//)
+class UserResponse(val id: Long, val username: String, val email: String, val firstName: String, val lastName: String, val token: String)
 
 @Entity
 @Table(name = "users")
 class User(
-        var token: String?,
-        var username: String,
-        var password: String,
-        var firstname: String,
-        var lastname: String,
+        val username: String,
+        val password: String,
+        val email: String,
+        val firstname: String,
+        val lastname: String,
+        val role: String,
         @Id @GeneratedValue var id: Long? = null
 )
 
@@ -38,7 +29,7 @@ class Product(
         val rate: Float,
         val shopId: Int,
         val shopName: String,
-        var addedAt: LocalDateTime = LocalDateTime.now(),
+        val addedAt: LocalDateTime = LocalDateTime.now(),
         @Id @GeneratedValue var id: Long? = null
 )
 

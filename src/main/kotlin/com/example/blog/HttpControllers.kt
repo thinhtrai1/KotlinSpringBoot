@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.User.withUsername
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.provisioning.JdbcUserDetailsManager
 import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.stereotype.Component
@@ -26,7 +27,15 @@ import javax.servlet.http.HttpServletResponse
 
 @RestController
 @RequestMapping("/api")
-class HomeController(private val repository: ProductRepository) {
+class HomeController(private val repository: ProductRepository, private val userRepository: UserRepository) {
+
+    @GetMapping("/users")
+    fun findAll() = Response(userRepository.findAll())
+}
+
+@RestController
+@RequestMapping("/api/product")
+class ProductController(private val repository: ProductRepository) {
 
     @GetMapping("/getHome")
     fun getHome() = Response(Home(
@@ -63,14 +72,6 @@ class HomeController(private val repository: ProductRepository) {
         return Response(product)
     }
 
-    @GetMapping("/users")
-    fun findAll() = Response(repository.findAll())
-}
-
-@RestController
-@RequestMapping("/api/product")
-class ProductController(private val repository: ProductRepository) {
-
     @GetMapping("")
     fun findAll(
             @RequestParam("search") search: String? = null,
@@ -97,26 +98,53 @@ class ProductController(private val repository: ProductRepository) {
 
 @RestController
 @RequestMapping("/api/user")
-class UserController(private val repository: UserRepository) {
+class UserController(private val repository: UserRepository, private val passwordEncoder: PasswordEncoder) {
 
     @Autowired
     private lateinit var authenticationManager: AuthenticationManager
 
     @PostMapping("/register")
-    fun register(@Param("username") username: String, @Param("password") password: String): Response<User> {
+    fun register(
+            @Param("username") username: String,
+            @Param("password") password: String,
+            @Param("email") email: String,
+            @Param("firstname") firstname: String,
+            @Param("lastname") lastname: String
+    ): Response<UserResponse> {
+        if (repository.existsByUsername(username)) {
+            return Response(null, "Username is already taken!")
+        }
+        if (repository.existsByEmail(email)) {
+            return Response(null, "Email is already taken!")
+        }
+        val user = repository.save(User(username, passwordEncoder.encode(password), email, firstname, lastname, "USER"))
         return Response(
-                repository.save(User(generateAuthentication(username), username, BCryptPasswordEncoder().encode(password), "Thịnh", "Đức"))
+                UserResponse(
+                        user.id!!,
+                        username,
+                        email,
+                        firstname,
+                        lastname,
+                        generateAuthentication(username)
+                )
         )
     }
 
     @PostMapping("/login")
-    fun login(@Param("username") username: String, @Param("password") password: String): Response<User> {
+    fun login(@Param("username") username: String, @Param("password") password: String): Response<UserResponse> {
         val auth = authenticationManager.authenticate(UsernamePasswordAuthenticationToken(username, password))
         SecurityContextHolder.getContext().authentication = auth
-        val token = generateAuthentication(username)
-        val user = auth.principal as CustomUserDetail
-        return Response(
-                User(token, username, password, user.user.firstname, user.user.lastname, user.user.id)
-        )
+        (auth.principal as CustomUserDetail).user.let { user ->
+            return Response(
+                    UserResponse(
+                            user.id!!,
+                            username,
+                            password,
+                            user.firstname,
+                            user.lastname,
+                            generateAuthentication(username)
+                    )
+            )
+        }
     }
 }
