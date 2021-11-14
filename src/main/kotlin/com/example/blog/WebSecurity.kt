@@ -3,6 +3,7 @@ package com.example.blog
 import getAuthentication
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
+import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.GrantedAuthority
@@ -78,6 +79,10 @@ class AuthTokenFilter: OncePerRequestFilter() {
 @Component
 class AuthEntryPointJwt: AuthenticationEntryPoint {
     override fun commence(request: HttpServletRequest?, response: HttpServletResponse?, authException: AuthenticationException?) {
-        response?.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized")
+        if (authException is BadCredentialsException) {
+            response?.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error: Wrong password")
+        } else {
+            response?.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized")
+        }
     }
 }

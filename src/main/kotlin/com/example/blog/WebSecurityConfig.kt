@@ -26,6 +26,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
+                .antMatchers("/").permitAll()
                 .antMatchers("/api/product/**").permitAll()
                 .antMatchers("/api/user/**").permitAll()
                 .anyRequest().authenticated()
