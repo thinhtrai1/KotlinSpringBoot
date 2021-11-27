@@ -39,6 +39,7 @@ class ProductController(private val repository: ProductRepository) {
                     price = 4600000000,
                     thumbnail = "https://ducthinhtrai.000webhostapp.com/images/VinFastPresident2021.jpg",
                     rate = 4.5f,
+                    description = "Được thiết kế đúng chất \"Chủ tịch\" với ngoại hình bệ vệ, sang trọng.",
                     shopId = 1,
                     shopName = "President Đà Nẵng"))
             1 -> repository.save(Product(
@@ -46,12 +47,14 @@ class ProductController(private val repository: ProductRepository) {
                     price = 1835693000,
                     thumbnail = "https://ducthinhtrai.000webhostapp.com/images/VinFast-Lux-SA2.0.png",
                     rate = 5f,
+                    description = "Sở hữu một ngoại thất với tỉ lệ hoàn hảo, chiều dài cơ sở lớn, nắp capô mạnh mẽ hướng ra trước một cách vừa phải và rộng, tạo nên một chiếc xe hội tụ đầy đủ những thành tốt tuyệt vời nhất.",
                     shopId = 2,
                     shopName = "WorldCar"))
             else -> repository.save(Product(
                     name = "VinFast Fadil - Phong cách châu Âu",
                     price = 449100000,
                     thumbnail = "https://ducthinhtrai.000webhostapp.com/images/Fadil_Red.jpg",
+                    description = "Kiểu dáng thiết kế thể thao và năng động. Khả năng vận hành mạnh mẽ ấn tượng. Là chiếc xe đáng được ao ước nhất phân khúc.",
                     rate = 5f,
                     shopId = 2,
                     shopName = "WorldCar"))

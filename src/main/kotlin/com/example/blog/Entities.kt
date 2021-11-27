@@ -27,9 +27,10 @@ class Product(
         val price: Long,
         val thumbnail: String,
         val rate: Float,
+        val description: String,
         val shopId: Int,
         val shopName: String,
-        val addedAt: LocalDateTime = LocalDateTime.now(),
+        val addedAt: Long = System.currentTimeMillis(),
         @Id @GeneratedValue var id: Long? = null
 )
 
