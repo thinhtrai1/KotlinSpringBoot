@@ -51,7 +51,7 @@ class ProductController(private val repository: ProductRepository) {
             else -> repository.save(Product(
                     name = "VinFast Fadil - Phong cách châu Âu",
                     price = 449100000,
-                    thumbnail = "https://vinfastdanang.com.vn/wp-content/uploads/2020/06/Fadil_Red.jpg",
+                    thumbnail = "https://ducthinhtrai.000webhostapp.com/images/Fadil_Red.jpg",
                     rate = 5f,
                     shopId = 2,
                     shopName = "WorldCar"))
@@ -121,17 +121,16 @@ class UserController(private val repository: UserRepository, private val passwor
     fun login(@Param("username") username: String, @Param("password") password: String): Response<UserResponse> {
         val auth = authenticationManager.authenticate(UsernamePasswordAuthenticationToken(username, password))
         SecurityContextHolder.getContext().authentication = auth
-        (auth.principal as CustomUserDetail).user.let { user ->
-            return Response(
-                    UserResponse(
-                            user.id!!,
-                            username,
-                            password,
-                            user.firstname,
-                            user.lastname,
-                            generateAuthentication(username)
-                    )
-            )
-        }
+        val user = (auth.principal as CustomUserDetail).user
+        return Response(
+                UserResponse(
+                        user.id!!,
+                        username,
+                        password,
+                        user.firstname,
+                        user.lastname,
+                        generateAuthentication(username)
+                )
+        )
     }
 }
