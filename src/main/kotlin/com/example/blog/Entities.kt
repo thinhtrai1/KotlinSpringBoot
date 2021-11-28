@@ -1,6 +1,5 @@
 package com.example.blog
 
-import java.time.LocalDateTime
 import javax.persistence.*
 
 class Response<T>(val data: T? = null, val message: String? = null)

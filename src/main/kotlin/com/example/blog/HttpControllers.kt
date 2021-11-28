@@ -33,7 +33,7 @@ class ProductController(private val repository: ProductRepository) {
 
     @GetMapping("/insert")
     fun insert(): Response<Product> {
-        val product = when ((0..2).random()) {
+        val product = when ((0..3).random()) {
             0 -> repository.save(Product(
                     name = "VinFast President 2021 - Động cơ V8 - Khi người Việt vươn tầm xe sang",
                     price = 4600000000,
@@ -50,6 +50,14 @@ class ProductController(private val repository: ProductRepository) {
                     description = "Sở hữu một ngoại thất với tỉ lệ hoàn hảo, chiều dài cơ sở lớn, nắp capô mạnh mẽ hướng ra trước một cách vừa phải và rộng, tạo nên một chiếc xe hội tụ đầy đủ những thành tốt tuyệt vời nhất.",
                     shopId = 2,
                     shopName = "WorldCar"))
+            2 -> repository.save(Product(
+                    name = "VinFast VF e34 - Ô tô điện thông minh đầu tiên của Việt Nam",
+                    price = 1835693000,
+                    thumbnail = "https://ducthinhtrai.000webhostapp.com/images/VinFast-VFe34-gray.jpg",
+                    rate = 5f,
+                    description = "Trợ lý ảo thông minh cùng các tiện tích trực tuyến, hỗ trợ an ninh an toàn vượt trội cùng sự thân thiện tuyệt đối với môi trường.",
+                    shopId = 3,
+                    shopName = "VinFast Shop"))
             else -> repository.save(Product(
                     name = "VinFast Fadil - Phong cách châu Âu",
                     price = 449100000,
