@@ -24,6 +24,7 @@ class User(
 class Product(
         val name: String,
         val price: Long,
+        val image: String,
         val thumbnail: String,
         val rate: Float,
         val description: String,
