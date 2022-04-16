@@ -33,7 +33,7 @@ class ProductController(private val repository: ProductRepository) {
 
     @GetMapping("/insert")
     fun insert(): Response<Product> {
-//        return Response(message = "Deprecated")
+        return Response(message = "Deprecated")
         repository.save(Product(
                 name = "VinFast President 2021 - Động cơ V8 - Khi người Việt vươn tầm xe sang",
                 price = 4600000000,
