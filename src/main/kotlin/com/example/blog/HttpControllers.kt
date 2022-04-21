@@ -18,6 +18,25 @@ class HomeController(private val repository: ProductRepository, private val user
 
     @GetMapping("/users")
     fun findAll() = Response(userRepository.findAll())
+
+    @GetMapping("/peoples")
+    fun getPeoples() = ResponseList(
+            data = listOf(
+                    PeopleResponse(
+                            id = 0,
+                            username = "ducthinh",
+                            email = "ducthinhtrai@gmail.com",
+                            firstname = "Thịnh",
+                            lastname = "Nguyễn",
+                            token = "",
+                            avatar = "/images/avatar-1.jpg",
+                            country = "Vietnam",
+                            phone = "+84384737103",
+                            facebook = "facebook.com/duthinhtrai",
+                    ),
+            ),
+            isLoadMore = false
+    )
 }
 
 @RestController
@@ -33,7 +52,7 @@ class ProductController(private val repository: ProductRepository) {
 
     @GetMapping("/insert")
     fun insert(): Response<Product> {
-        return Response(message = "Deprecated")
+        return Response(message = "Closed")
         repository.save(Product(
                 name = "VinFast President 2021 - Động cơ V8 - Khi người Việt vươn tầm xe sang",
                 price = 4600000000,

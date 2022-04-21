@@ -19,6 +19,19 @@ class User(
         @Id @GeneratedValue var id: Long? = null
 )
 
+class PeopleResponse(
+        val id: Int,
+        val username: String,
+        val email: String,
+        val firstname: String,
+        val lastname: String,
+        val token: String,
+        val avatar: String,
+        val country: String,
+        val phone: String,
+        val facebook: String?
+)
+
 @Entity
 @Table(name = "product")
 class Product(
