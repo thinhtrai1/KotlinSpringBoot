@@ -12,6 +12,19 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 
+/**
+ * Work on Heroku
+ * To deploy: Go to root folder -> open PowerShell
+ * - For first time:
+ *      + heroku login
+ *      + heroku git:clone -a nguyenducthinh
+ *      + cd nguyenducthinh
+ * - For deploy changes:
+ *      + git add .
+ *      + git commit -am "make it better"
+ *      + git push heroku master
+ * */
+
 @RestController
 @RequestMapping("/api")
 class HomeController(private val repository: ProductRepository, private val userRepository: UserRepository) {
@@ -26,13 +39,111 @@ class HomeController(private val repository: ProductRepository, private val user
                             id = 0,
                             username = "ducthinh",
                             email = "ducthinhtrai@gmail.com",
-                            firstname = "Thịnh",
+                            firstname = "Đức Thịnh",
                             lastname = "Nguyễn",
-                            token = "",
                             avatar = "/images/avatar-1.jpg",
                             country = "Vietnam",
                             phone = "+84384737103",
-                            facebook = "facebook.com/duthinhtrai",
+                            facebook = "facebook.com/ducthinhtrai",
+                    ),
+                    PeopleResponse(
+                            id = 1,
+                            username = "nelson1",
+                            email = "nelson123@gmail.com",
+                            firstname = "Nelson",
+                            lastname = "Mandela",
+                            avatar = "/images/nelson-mandela.jpg",
+                            country = "South Africa",
+                            phone = "+16112151566",
+                            facebook = null,
+                    ),
+                    PeopleResponse(
+                            id = 2,
+                            username = "trinhdamdang",
+                            email = "trinh89@gmail.com",
+                            firstname = "Ngọc Trinh",
+                            lastname = "Trần Thị",
+                            avatar = "/images/ngoc-trinh.jpg",
+                            country = "Vietnam",
+                            phone = "+84451212323",
+                            facebook = "facebook.com/ngoctrinhfashion89",
+                    ),
+                    PeopleResponse(
+                            id = 3,
+                            username = "MicheleMoniqueReis",
+                            email = "hanhan@gmail.com",
+                            firstname = "Gia Hân",
+                            lastname = "Lý",
+                            avatar = "/images/ly-gia-han.jpg",
+                            country = "Hong Kong",
+                            phone = "+451651561212",
+                            facebook = null,
+                    ),
+                    PeopleResponse(
+                            id = 4,
+                            username = "joe_vjpprodeptrajkuteno1",
+                            email = "joe_biden@gmail.com",
+                            firstname = "Joe",
+                            lastname = "Biden",
+                            avatar = "/images/joe-biden.jpg",
+                            country = "United States",
+                            phone = "+151261561248",
+                            facebook = "facebook.com/joebiden",
+                    ),
+                    PeopleResponse(
+                            id = 5,
+                            username = "jisoo_Blackpink",
+                            email = "jisoo_bp@gmail.com",
+                            firstname = "Jisoo",
+                            lastname = "Jisoo",
+                            avatar = "/images/Jisoo.jpg",
+                            country = "Korea",
+                            phone = "+599156566628",
+                            facebook = "facebook.com/BLACKPINK.JISOO",
+                    ),
+                    PeopleResponse(
+                            id = 6,
+                            username = "yangyang",
+                            email = "yangyangboy@gmail.com",
+                            firstname = "Dương",
+                            lastname = "Dương",
+                            avatar = "/images/duong-duong.jpg",
+                            country = "China",
+                            phone = "+84516521451",
+                            facebook = "facebook.com/%E6%9D%A8%E6%B4%8B-Yang-Yang-287844248260916",
+                    ),
+                    PeopleResponse(
+                            id = 7,
+                            username = "trump_vjpprodeptrajkuteno1",
+                            email = "trump-donald-duck@gmail.com",
+                            firstname = "Donald",
+                            lastname = "Trump",
+                            avatar = "/images/donald-trump.jpg",
+                            country = "United States",
+                            phone = "+451515515661",
+                            facebook = "facebook.com/DonaldTrump",
+                    ),
+                    PeopleResponse(
+                            id = 8,
+                            username = "dilraba_dilmurat",
+                            email = "rabamurat@gmail.com",
+                            firstname = "Địch Lệ",
+                            lastname = "Nhiệt Ba",
+                            avatar = "/images/dich-le-nhiet-ba.jpg",
+                            country = "China",
+                            phone = "+4894624862",
+                            facebook = "facebook.com/standilireba",
+                    ),
+                    PeopleResponse(
+                            id = 9,
+                            username = "RonaldoFootballNo1",
+                            email = "crisnaldo@gmail.com",
+                            firstname = "Cristiano",
+                            lastname = "Ronaldo",
+                            avatar = "/images/Cristiano_Ronaldo.jpg",
+                            country = "Portugal",
+                            phone = "+459451233245",
+                            facebook = "facebook.com/Cristiano",
                     ),
             ),
             isLoadMore = false
@@ -135,7 +246,7 @@ class ProductController(private val repository: ProductRepository) {
                 shopId = 6,
                 shopName = "Porsche Vietnam"))
         repository.save(Product(
-                name = "Mercedes-Benz-EQG-G-Class-2021 - Dynamism is an attitude",
+                name = "Mercedes-Benz C 300 AMG - Dynamism is an attitude",
                 price = 1499000000,
                 image = "/images/MERCEDES-BENZ_C300.jpg",
                 thumbnail = "/images/thumbnails/MERCEDES-BENZ_C300.jpg",

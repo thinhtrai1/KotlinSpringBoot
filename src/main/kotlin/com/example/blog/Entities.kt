@@ -25,7 +25,6 @@ class PeopleResponse(
         val email: String,
         val firstname: String,
         val lastname: String,
-        val token: String,
         val avatar: String,
         val country: String,
         val phone: String,
