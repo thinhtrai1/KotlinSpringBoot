@@ -163,7 +163,7 @@ class ProductController(private val repository: ProductRepository) {
 
     @GetMapping("/insert")
     fun insert(): Response<Product> {
-//        return Response(message = "Closed")
+        return Response(message = "Closed")
         repository.deleteAll()
         repository.save(Product(
                 name = "VinFast President 2021 - Động cơ V8 - Khi người Việt vươn tầm xe sang",
@@ -211,12 +211,12 @@ class ProductController(private val repository: ProductRepository) {
                 shopId = 2,
                 shopName = "WorldCar"))
         repository.save(Product(
-                name = "Bugatti Chiron Noire - SPORTIVE - ÉLÉGANCE - LUXURY AND POWER",
-                price = 4600000000,
+                name = "Bugatti Chiron Noire - SPORTIVE - ELEGANCE - LUXURY AND POWER",
+                price = 69000000000,
                 image = "/images/bugatti-chiron-noire.jpg",
                 thumbnail = "/images/thumbnails/bugatti-chiron-noire.jpg",
                 rate = 5f,
-                description = "The story of BUGATTI’s La Voiture Noire is a renowned myth within the world of automotive. Created by Jean Bugatti, the black Type 57 SC Atlantic went missing at the beginning of the Second World War and was never seen again. In March 2019, BUGATTI’s Design team created a modern interpretation of this incredible vehicle for the 21st century.",
+                description = "The story of BUGATTI’s La Voiture Noire is a renowned myth within the world of automotive. Created by Jean Bugatti, the black Type 57 SC Atlantic went missing at the beginning of the Second World War and was never seen again.",
                 shopId = 7,
                 shopName = "Automobiles Ettore Bugatti"))
         repository.save(Product(
@@ -301,12 +301,12 @@ class ProductController(private val repository: ProductRepository) {
                 shopId = 2,
                 shopName = "WorldCar"))
         repository.save(Product(
-                name = "Bugatti Chiron Noire - SPORTIVE - ÉLÉGANCE - LUXURY AND POWER",
-                price = 4600000000,
+                name = "Bugatti Chiron Noire - SPORTIVE - ELEGANCE - LUXURY AND POWER",
+                price = 69000000000,
                 image = "/images/bugatti-chiron-noire.jpg",
                 thumbnail = "/images/thumbnails/bugatti-chiron-noire.jpg",
                 rate = 5f,
-                description = "The story of BUGATTI’s La Voiture Noire is a renowned myth within the world of automotive. Created by Jean Bugatti, the black Type 57 SC Atlantic went missing at the beginning of the Second World War and was never seen again. In March 2019, BUGATTI’s Design team created a modern interpretation of this incredible vehicle for the 21st century.",
+                description = "The story of BUGATTI’s La Voiture Noire is a renowned myth within the world of automotive. Created by Jean Bugatti, the black Type 57 SC Atlantic went missing at the beginning of the Second World War and was never seen again.",
                 shopId = 7,
                 shopName = "Automobiles Ettore Bugatti"))
         repository.save(Product(
