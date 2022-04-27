@@ -163,7 +163,8 @@ class ProductController(private val repository: ProductRepository) {
 
     @GetMapping("/insert")
     fun insert(): Response<Product> {
-        return Response(message = "Closed")
+//        return Response(message = "Closed")
+        repository.deleteAll()
         repository.save(Product(
                 name = "VinFast President 2021 - Động cơ V8 - Khi người Việt vươn tầm xe sang",
                 price = 4600000000,
@@ -300,14 +301,14 @@ class ProductController(private val repository: ProductRepository) {
                 shopId = 2,
                 shopName = "WorldCar"))
         repository.save(Product(
-                name = "VinFast VF e34 - Ô tô điện thông minh đầu tiên của Việt Nam",
-                price = 1835693000,
-                image = "/images/VinFast-VFe34-gray.jpg",
-                thumbnail = "/images/thumbnails/VinFast-VFe34-gray.jpg",
-                rate = 4.5f,
-                description = "Trợ lý ảo thông minh cùng các tiện tích trực tuyến, hỗ trợ an ninh an toàn vượt trội cùng sự thân thiện tuyệt đối với môi trường.",
-                shopId = 3,
-                shopName = "VinFast Shop"))
+                name = "Bugatti Chiron Noire - SPORTIVE - ÉLÉGANCE - LUXURY AND POWER",
+                price = 4600000000,
+                image = "/images/bugatti-chiron-noire.jpg",
+                thumbnail = "/images/thumbnails/bugatti-chiron-noire.jpg",
+                rate = 5f,
+                description = "The story of BUGATTI’s La Voiture Noire is a renowned myth within the world of automotive. Created by Jean Bugatti, the black Type 57 SC Atlantic went missing at the beginning of the Second World War and was never seen again. In March 2019, BUGATTI’s Design team created a modern interpretation of this incredible vehicle for the 21st century.",
+                shopId = 7,
+                shopName = "Automobiles Ettore Bugatti"))
         repository.save(Product(
                 name = "Mercedes-Benz-EQG-G-Class-2021 - An icon embraces the future",
                 price = 2200000000,
@@ -394,18 +395,6 @@ class ProductController(private val repository: ProductRepository) {
 
     @GetMapping("/{page}")
     fun getForYou(@PathVariable page: Int) = repository.findAll(PageRequest.of(page, 10)).run {
-        repository.save(
-                Product(
-                        id = 6,
-                        name = "Bugatti Chiron Noire - SPORTIVE - ÉLÉGANCE - LUXURY AND POWER",
-                        price = 4600000000,
-                        image = "/images/bugatti-chiron-noire.jpg",
-                        thumbnail = "/images/thumbnails/bugatti-chiron-noire.jpg",
-                        rate = 5f,
-                        description = "The story of BUGATTI’s La Voiture Noire is a renowned myth within the world of automotive. Created by Jean Bugatti, the black Type 57 SC Atlantic went missing at the beginning of the Second World War and was never seen again. In March 2019, BUGATTI’s Design team created a modern interpretation of this incredible vehicle for the 21st century.",
-                        shopId = 7,
-                        shopName = "Automobiles Ettore Bugatti")
-        )
         ResponseList(content, isLoadMore = page < totalPages - 1)
     }
 }
