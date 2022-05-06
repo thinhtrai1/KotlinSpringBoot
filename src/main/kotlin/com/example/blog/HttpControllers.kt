@@ -37,7 +37,7 @@ class HomeController(private val repository: ProductRepository, private val user
             data = listOf(
                     PeopleResponse(
                             id = 0,
-                            username = "duckThink",
+                            username = "duck_think",
                             email = "ducthinhtrai@gmail.com",
                             firstname = "Đức Thịnh",
                             lastname = "Nguyễn",
@@ -442,7 +442,7 @@ class UserController(private val repository: UserRepository, private val passwor
                 UserResponse(
                         user.id!!,
                         username,
-                        password,
+                        user.email,
                         user.firstname,
                         user.lastname,
                         generateAuthentication(username)
