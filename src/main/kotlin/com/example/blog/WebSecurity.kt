@@ -2,20 +2,18 @@ package com.example.blog
 
 import getAuthentication
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
-import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
 import org.springframework.web.filter.OncePerRequestFilter
-import org.springframework.web.server.ResponseStatusException
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -26,7 +24,7 @@ class CustomUserDetailService: UserDetailsService {
     private lateinit var userRepository: UserRepository
 
     override fun loadUserByUsername(username: String): UserDetails {
-        return CustomUserDetail(userRepository.findByUsername(username) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"))
+        return CustomUserDetail(userRepository.findByUsername(username) ?: throw UsernameNotFoundException("Username does not exist"))
     }
 }
 
@@ -79,10 +77,11 @@ class AuthTokenFilter: OncePerRequestFilter() {
 @Component
 class AuthEntryPointJwt: AuthenticationEntryPoint {
     override fun commence(request: HttpServletRequest?, response: HttpServletResponse?, authException: AuthenticationException?) {
-        if (authException is BadCredentialsException) {
-            response?.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error: Wrong password")
-        } else {
-            response?.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized")
-        }
+//        if (authException is BadCredentialsException) {
+//            response?.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error: Wrong password")
+//        } else {
+//            response?.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized")
+//        }
+        response?.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
     }
 }
