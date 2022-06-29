@@ -27,16 +27,53 @@ import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("/api")
-class HomeController(private val repository: ProductRepository, private val userRepository: UserRepository) {
+class HomeController(private val userRepository: UserRepository) {
 
     @GetMapping("/users")
     fun findAll() = Response(userRepository.findAll())
+}
 
-    @GetMapping("/peoples")
-    fun getPeoples() = ResponseList(
-            data = listOf(
-                    PeopleResponse(
-                            id = 0,
+@RestController
+@RequestMapping("/api/peoples")
+class PeopleController(private val repository: PeopleRepository) {
+
+    @GetMapping("/insert")
+    fun insert(): Response<People> {
+        if (repository.count() > 0) {
+            return Response(message = "Closed")
+        } else {
+            repository.saveAll(listOf(
+                    People(
+                            username = "minhnt3",
+                            email = "minhnt3@nal.vn",
+                            firstname = "Minh",
+                            lastname = "Nt3",
+                            avatar = "/images/avatar-1.jpg",
+                            country = "Vietnam",
+                            phone = "+84384737103",
+                            facebook = "facebook.com/ducthinhtrai",
+                    ),
+                    People(
+                            username = "duynn",
+                            email = "duynn@nal.vn",
+                            firstname = "Ngọc Duy",
+                            lastname = "Nguyễn",
+                            avatar = "/images/avatar-1.jpg",
+                            country = "Vietnam",
+                            phone = "+84384737103",
+                            facebook = "facebook.com/ducthinhtrai",
+                    ),
+                    People(
+                            username = "lanltn",
+                            email = "lanltn@nal.vn",
+                            firstname = "Ngọc Lan",
+                            lastname = "Lưu Thị",
+                            avatar = "/images/avatar-1.jpg",
+                            country = "Vietnam",
+                            phone = "+84384737103",
+                            facebook = "facebook.com/ducthinhtrai",
+                    ),
+                    People(
                             username = "duck_think",
                             email = "ducthinhtrai@gmail.com",
                             firstname = "Đức Thịnh",
@@ -46,19 +83,17 @@ class HomeController(private val repository: ProductRepository, private val user
                             phone = "+84384737103",
                             facebook = "facebook.com/ducthinhtrai",
                     ),
-                    PeopleResponse(
-                            id = 1,
-                            username = "mySouthAfrica",
-                            email = "nelson123@gmail.com",
-                            firstname = "Nelson",
-                            lastname = "Mandela",
-                            avatar = "/images/nelson-mandela.jpg",
-                            country = "South Africa",
-                            phone = "+16112151566",
-                            facebook = null,
-                    ),
-                    PeopleResponse(
-                            id = 2,
+//                    People(
+//                            username = "mySouthAfrica",
+//                            email = "nelson123@gmail.com",
+//                            firstname = "Nelson",
+//                            lastname = "Mandela",
+//                            avatar = "/images/nelson-mandela.jpg",
+//                            country = "South Africa",
+//                            phone = "+16112151566",
+//                            facebook = null,
+//                    ),
+                    People(
                             username = "trinhdamdang",
                             email = "trinh89@gmail.com",
                             firstname = "Ngọc Trinh",
@@ -68,8 +103,7 @@ class HomeController(private val repository: ProductRepository, private val user
                             phone = "+84451212323",
                             facebook = "facebook.com/ngoctrinhfashion89",
                     ),
-                    PeopleResponse(
-                            id = 3,
+                    People(
                             username = "MicheleMoniqueReis",
                             email = "hanhan@gmail.com",
                             firstname = "Gia Hân",
@@ -79,8 +113,7 @@ class HomeController(private val repository: ProductRepository, private val user
                             phone = "+451651561212",
                             facebook = null,
                     ),
-                    PeopleResponse(
-                            id = 4,
+                    People(
                             username = "joe_vjpprodeptrajkuteno1",
                             email = "joe_biden@gmail.com",
                             firstname = "Joe",
@@ -90,8 +123,7 @@ class HomeController(private val repository: ProductRepository, private val user
                             phone = "+151261561248",
                             facebook = "facebook.com/joebiden",
                     ),
-                    PeopleResponse(
-                            id = 5,
+                    People(
                             username = "jisoo_Blackpink",
                             email = "jisoo_bp@gmail.com",
                             firstname = "Jisoo",
@@ -101,8 +133,7 @@ class HomeController(private val repository: ProductRepository, private val user
                             phone = "+599156566628",
                             facebook = "facebook.com/BLACKPINK.JISOO",
                     ),
-                    PeopleResponse(
-                            id = 6,
+                    People(
                             username = "yangyang",
                             email = "yangyangboy@gmail.com",
                             firstname = "Dương",
@@ -112,8 +143,7 @@ class HomeController(private val repository: ProductRepository, private val user
                             phone = "+84516521451",
                             facebook = "facebook.com/%E6%9D%A8%E6%B4%8B-Yang-Yang-287844248260916",
                     ),
-                    PeopleResponse(
-                            id = 7,
+                    People(
                             username = "trump_ducky",
                             email = "trump-donald-duck@gmail.com",
                             firstname = "Donald",
@@ -123,8 +153,7 @@ class HomeController(private val repository: ProductRepository, private val user
                             phone = "+451515515661",
                             facebook = "facebook.com/DonaldTrump",
                     ),
-                    PeopleResponse(
-                            id = 8,
+                    People(
                             username = "dilraba_dilmurat",
                             email = "rabamurat@gmail.com",
                             firstname = "Nhiệt Ba",
@@ -134,8 +163,7 @@ class HomeController(private val repository: ProductRepository, private val user
                             phone = "+4894624862",
                             facebook = "facebook.com/standilireba",
                     ),
-                    PeopleResponse(
-                            id = 9,
+                    People(
                             username = "RonaldoFootball4ever",
                             email = "crisnaldo@gmail.com",
                             firstname = "Cristiano",
@@ -145,9 +173,24 @@ class HomeController(private val repository: ProductRepository, private val user
                             phone = "+459451233245",
                             facebook = "facebook.com/Cristiano",
                     ),
-            ),
+            ))
+            return Response(message = "Success")
+        }
+    }
+
+    @GetMapping("")
+    fun getPeoples() = ResponseList(
+            data = repository.findAll(),
             isLoadMore = false
     )
+
+    @GetMapping("/{page}/{size}")
+    fun getPeoples(
+            @PathVariable page: Int,
+            @PathVariable size: Int,
+    ) = repository.findAll(PageRequest.of(page, size)).let {
+        ResponseList(it.content, isLoadMore = page < it.totalPages - 1)
+    }
 }
 
 @RestController
@@ -163,7 +206,9 @@ class ProductController(private val repository: ProductRepository) {
 
     @GetMapping("/insert")
     fun insert(): Response<Product> {
-        return Response(message = "Closed")
+        if (repository.count() > 0) {
+            return Response(message = "Closed")
+        }
         repository.deleteAll()
         repository.save(Product(
                 name = "VinFast President 2021 - Động cơ V8 - Khi người Việt vươn tầm xe sang",

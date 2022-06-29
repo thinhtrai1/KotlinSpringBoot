@@ -12,6 +12,10 @@ interface ProductRepository : CrudRepository<Product, Long> {
     fun findAll(pageable: Pageable): Page<Product>
 }
 
+interface PeopleRepository : CrudRepository<People, Long> {
+    fun findAll(pageable: Pageable): Page<People>
+}
+
 interface UserRepository : JpaRepository<User, Long> {
 
     fun findByUsername(username: String ): User?

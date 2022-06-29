@@ -19,8 +19,10 @@ class User(
         @Id @GeneratedValue var id: Long? = null
 )
 
-class PeopleResponse(
-        val id: Int,
+@Entity
+@Table(name = "people")
+class People(
+        @Id @GeneratedValue var id: Long? = null,
         val username: String,
         val email: String,
         val firstname: String,
