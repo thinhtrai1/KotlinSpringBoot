@@ -6,9 +6,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: ducthinh1
-#    url: jdbc:postgresql://localhost:5432/d998qrh3s9j35h
-#    username: qbtnltcwwdkpsq
-#    password: b0675ffa3ed16d5819630bec0855d9927f890a8cc4174782374c3cdc5439d886
+#    url: jdbc:postgresql://localhost:5432/d2hlp6ainokaif
+#    username: jigclkeeswxyse
+#    password: a7dcbb25e84eb0dc2fe4764e0c9d05e48b5ede420cd2dd3c33c3d649636e99e4
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
@@ -19,3 +19,5 @@ blog:
   banner:
     title: Mỗi ngày lớn lên
     content: Khi lớn lên rồi, tôi mới nhận ra mình không còn nhỏ nữa
+server:
+  port: 9002
