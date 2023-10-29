@@ -12,19 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 
-/**
- * Work on Heroku
- * Open PowerShell in root folder or open Terminal in Android Studio
- * - For first time:
- *      + heroku login
- *      + heroku git:clone -a nguyenducthinh
- *      + cd nguyenducthinh
- * - For deploy changes:
- *      + git add .
- *      + git commit -am "commit-name"
- *      + git push heroku master
- * */
-
 @RestController
 @RequestMapping("/api")
 class HomeController(private val userRepository: UserRepository) {

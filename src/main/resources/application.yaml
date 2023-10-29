@@ -1,14 +1,12 @@
 spring:
-  profiles:
-    active: dev
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: ducthinh1
-#    url: jdbc:postgresql://localhost:5432/d2hlp6ainokaif
-#    username: jigclkeeswxyse
-#    password: a7dcbb25e84eb0dc2fe4764e0c9d05e48b5ede420cd2dd3c33c3d649636e99e4
+#    url: jdbc:postgresql://localhost:5432/postgres
+#    username: postgres
+#    password: ducthinh1
+    url: jdbc:postgres://dpg-ckv39v3amefc73ck5kd0-a.singapore-postgres.render.com/test_db_r8nn
+    username: test_db_r8nn_user
+    password: 5rWVT4dIm5Mo6AcRlAEGF5rFDlR4oWTN
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false

@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
 	id("org.springframework.boot") version "2.5.6"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
@@ -31,15 +29,8 @@ dependencies {
 	implementation("javax.xml.bind:jaxb-api:2.3.0")
 
 	implementation("org.springframework.boot:spring-boot-starter-security")
-//	implementation("org.springframework.security:spring-security-test")
+	implementation("org.springframework.security:spring-security-test")
 	implementation("io.jsonwebtoken:jjwt:0.2")
-}
-
-tasks.withType<KotlinCompile> {
-	kotlinOptions {
-		freeCompilerArgs = listOf("-Xjsr305=strict")
-		jvmTarget = "1.8"
-	}
 }
 
 tasks.withType<Test> {

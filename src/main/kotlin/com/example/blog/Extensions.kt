@@ -17,7 +17,7 @@ fun generateAuthentication(username: String) = Jwts.builder()
 fun getAuthentication(request: HttpServletRequest?): Authentication? {
     request?.getHeader(HEADER_STRING)?.let {
         val username = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(it.replace("Bearer ", "")).body.subject
-        return UsernamePasswordAuthenticationToken(username, null, emptyList())
+        return UsernamePasswordAuthenticationToken(username, it, emptyList())
     }
     return null
 }
