@@ -19,7 +19,7 @@ class HtmlController(
     fun blog(model: Model): String {
         model["title"] = properties.title
         model["banner"] = properties.banner
-        model["products"] = repository.findTop10ByOrderByAddedAtDesc()
+//        model["products"] = repository.findTop10ByOrderByAddedAtDesc()
 //                .map { it.render() }
         return "blog"
     }

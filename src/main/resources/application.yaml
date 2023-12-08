@@ -1,21 +1,21 @@
-spring:
-  datasource:
-    driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://localhost:5432/postgres
-#    username: postgres
-#    password: ducthinh1
-    url: jdbc:postgres://dpg-ckv39v3amefc73ck5kd0-a.singapore-postgres.render.com/test_db_r8nn
-    username: test_db_r8nn_user
-    password: 5rWVT4dIm5Mo6AcRlAEGF5rFDlR4oWTN
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: false
-    hibernate:
-      ddl-auto: update
+#spring:
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+##    url: jdbc:postgresql://localhost:5432/postgres
+##    username: postgres
+##    password: ducthinh1
+#    url: jdbc:postgres://dpg-ckv39v3amefc73ck5kd0-a.singapore-postgres.render.com/test_db_r8nn
+#    username: test_db_r8nn_user
+#    password: 5rWVT4dIm5Mo6AcRlAEGF5rFDlR4oWTN
+#  jpa:
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    show-sql: false
+#    hibernate:
+#      ddl-auto: update
 blog:
   title: Thịnh đây
   banner:
     title: Mỗi ngày lớn lên
     content: Khi lớn lên rồi, tôi mới nhận ra mình không còn nhỏ nữa
-server:
-  port: 9002
+#server:
+#  port: 9002

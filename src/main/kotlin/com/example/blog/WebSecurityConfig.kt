@@ -52,4 +52,19 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     fun authenticationJwtTokenFilter(): AuthTokenFilter {
         return AuthTokenFilter()
     }
+
+    @Bean
+    fun userRepository(): UserRepository {
+        return UserRepository()
+    }
+
+    @Bean
+    fun productRepository(): ProductRepository {
+        return ProductRepository()
+    }
+
+    @Bean
+    fun peopleRepository(): PeopleRepository {
+        return PeopleRepository()
+    }
 }
