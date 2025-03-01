@@ -19,7 +19,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
@@ -33,6 +32,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import java.util.*
 
 @Configuration
@@ -95,6 +96,7 @@ class SecurityConfiguration {
                         "/api/product/**",
                         "/api/user/**",
                         "/images/**",
+                        "/purchase/**",
                     ).permitAll()
                     .anyRequest().authenticated()
             }
@@ -187,6 +189,8 @@ class AuthEntryPointJwt : AuthenticationEntryPoint {
     }
 }
 
+private val SECRET = Keys.hmacShaKeyFor(Decoders.BASE64.decode("Y29tLnRlc3QubXlzcHJpbmcuTVlfU1BSSU5HX1NFQ1JFVF9LRVk="))
+
 fun generateAuthentication(username: String): String {
     return Jwts.builder()
         .subject(username)
@@ -209,4 +213,14 @@ fun getAuthenticationUsername(request: HttpServletRequest?): String? {
     }
 }
 
-private val SECRET = Keys.hmacShaKeyFor(Decoders.BASE64.decode("Y29tLnRlc3QubXlzcHJpbmcuTVlfU1BSSU5HX1NFQ1JFVF9LRVk="))
+@Configuration
+class MvcConfig : WebMvcConfigurer {
+    override fun addViewControllers(registry: ViewControllerRegistry) {
+        arrayOf(
+            "/privacy",
+            "/contact",
+        ).forEach {
+            registry.addViewController(it).setViewName("forward:$it.html")
+        }
+    }
+}

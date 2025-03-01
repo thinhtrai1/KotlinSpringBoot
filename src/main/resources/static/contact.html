@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; padding: 20px; line-height: 1.6; }
+        h1, h2 { color: #333; }
+    </style>
+</head>
+<body>
+<h1>Contact Us</h1>
+<form action="/api/user/contact" method="post">
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="message">Message:</label><br>
+    <textarea id="message" name="message" rows="5" required></textarea><br><br>
+
+    <button type="submit">Submit</button>
+</form>
+
+<br><br>
+<p>Thank you for trusting and using Caror!</p>
+</body>
+</html>

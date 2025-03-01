@@ -1,5 +1,7 @@
 package com.test.myspring
 
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.query.Param
 import org.springframework.http.HttpStatus
@@ -10,6 +12,12 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
+import java.net.URI
+import java.util.*
+
+private val OBJECT_MAPPER = ObjectMapper().apply {
+    configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+}
 
 @RestController
 @RequestMapping("/api/user")
@@ -71,6 +79,15 @@ class UserController(
             generateAuthentication(username)
         ).ok()
     }
+
+    @PostMapping("/contact")
+    fun contact(
+        @Param("name") name: String,
+        @Param("email") email: String,
+        @Param("message") message: String,
+    ): ResponseEntity<Void> {
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI("/")).build()
+    }
 }
 
 @RestController
@@ -86,7 +103,7 @@ class HomeController(private val userRepository: UserRepository) {
 class ProductController(private val repository: ProductRepository) {
 
     @GetMapping("")
-    fun findAll(
+    fun getProduct(
         @RequestParam("search") search: String? = null,
         @RequestParam("id") id: Long? = null,
     ) = if (search != null) {
@@ -104,7 +121,14 @@ class ProductController(private val repository: ProductRepository) {
     }
 
     @GetMapping("/{page}")
-    fun getForYou(@PathVariable page: Int) = repository.findAll(PageRequest.of(page, 10)).ok()
+    fun getProducts(
+        @PathVariable page: Int,
+        @RequestParam("ids") ids: List<Long>? = null,
+    ) = if (ids != null) {
+        repository.findByIds(ids, PageRequest.of(page, 10)).ok()
+    } else {
+        repository.findAll(PageRequest.of(page, 10)).ok()
+    }
 }
 
 @RestController
@@ -119,4 +143,31 @@ class PeopleController(private val repository: PeopleRepository) {
         @PathVariable page: Int,
         @PathVariable size: Int,
     ) = repository.findAll(PageRequest.of(page, size)).ok()
+}
+
+@RestController
+@RequestMapping("/purchase")
+class PurchaseController(private val repository: PurchaseRepository) {
+
+    @PostMapping("/webhook/premium")
+    fun receivePremiumWebhook(@RequestBody payload: Map<String?, Any?>?): String {
+        if (payload?.containsKey("message") == true) {
+            try {
+                val message = payload["message"] as Map<*, *>
+                val bytes = Base64.getDecoder().decode(message["data"] as String?)
+                val data = OBJECT_MAPPER.readValue(bytes, Purchase::class.java)
+                repository.save(data)
+            } catch (e: Exception) {
+                repository.saveError(payload)
+            }
+        }
+
+        return "OK"
+    }
+
+    @GetMapping("/histories")
+    fun getHistories() = repository.findAll().ok()
+
+    @GetMapping("/errors")
+    fun getErrors() = repository.getErrors().ok()
 }
