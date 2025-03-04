@@ -97,6 +97,8 @@ class SecurityConfiguration {
                         "/api/user/**",
                         "/images/**",
                         "/purchase/**",
+                        "/share/**",
+                        "/.well-known/assetlinks.json",
                     ).permitAll()
                     .anyRequest().authenticated()
             }

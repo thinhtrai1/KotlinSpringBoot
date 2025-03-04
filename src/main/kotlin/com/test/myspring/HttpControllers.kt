@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.query.Param
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -12,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import java.net.URI
 import java.util.*
 
@@ -170,4 +172,32 @@ class PurchaseController(private val repository: PurchaseRepository) {
 
     @GetMapping("/errors")
     fun getErrors() = repository.getErrors().ok()
+}
+
+@RestController
+@RequestMapping("/share")
+class DeeplinkController {
+
+    @GetMapping("/{id}")
+    fun openApp(@PathVariable id: String): ResponseEntity<*> {
+        val host = ServletUriComponentsBuilder.fromCurrentRequestUri().build().host
+        val appPackage = "com.app.caror.caror"
+        val playStoreLink = "https://play.google.com/store/apps/details?id=$appPackage&pid=$id"
+        val html = ("<html><head><style>"
+            + "body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f4f4f4; }"
+            + "button { padding: 15px 30px; font-size: 18px; font-weight: bold; color: white; background: linear-gradient(45deg, #000000, #666666); border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); transition: 0.3s; }"
+            + "button:hover { transform: scale(1.05); opacity: 0.9; }"
+            + "</style><script>"
+            + "function openApp() {"
+            + "  var appLink = 'intent://$host/product?pid=$id#Intent;scheme=https;package=$appPackage;end;';"
+            + "  window.location = appLink;"
+            + "  setTimeout(function() { window.location = '" + playStoreLink + "'; }, 2000);"
+            + "}"
+            + "window.onload = openApp;"
+            + "</script></head><body>"
+            + "<button onclick=openApp>Go to the app</button>"
+            + "</body></html>")
+
+        return ResponseEntity.ok().contentType(MediaType.TEXT_HTML).body(html)
+    }
 }

@@ -1,0 +1,16 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.app.caror.caror",
+      "sha256_cert_fingerprints": [
+        "B6:88:5F:DD:B7:35:D5:B1:19:60:7E:97:6F:F4:B2:B2:65:DF:CF:EC:4F:E3:24:79:9B:9B:70:E8:43:2B:5F:15",
+        "17:A8:B2:01:1B:78:30:5C:15:AB:C8:EF:27:23:E7:63:F4:D1:06:86:CD:83:C6:5D:EF:1F:48:F8:44:B1:77:20",
+        "C6:72:A9:33:BC:97:EB:8A:85:FD:B7:0A:C2:98:5F:88:C1:39:4C:92:B0:F9:38:CC:76:51:7D:49:B4:D8:B8:4C"
+      ]
+    }
+  }
+]
